@@ -25898,18 +25898,31 @@
 	      ),
 	      _react2.default.createElement(
 	        'div',
-	        { className: 'ui three column grid game-container', ref: 'GameContainer', style: { width: window.GlobalConfig.gameWidth, position: 'relative' } },
+	        { className: 'ui three column grid game-container',
+	          ref: 'GameContainer',
+	          style: {
+	            position: 'relative',
+	            height: GlobalConfig.imgHeight,
+	            width: GlobalConfig.imgWith,
+	            backgroundImage: 'url(image/game/1.jpg)'
+	          } },
 	        this.gameMap.map(function (index, i) {
+	          var x = i % 3 * 33.33;
+	          var y = parseInt(i / 3) * 33.33;
 	          return _react2.default.createElement(
 	            'div',
 	            { d: index + '', className: 'column game_cell', key: i },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'ui card' },
+	              { d: index + '', className: 'ui card imgPart', style: {
+	                  height: '100%',
+	                  background: 'url("image/game/' + this.props.params.img + '")',
+	                  backgroundPosition: x + '% ' + y + '%'
+	                } },
 	              _react2.default.createElement(
 	                'a',
 	                { className: 'image' },
-	                _react2.default.createElement('img', { d: index, src: 'image/game/' + window.PuzzleImages[i][0] })
+	                _react2.default.createElement('span', { d: index + '' })
 	              )
 	            )
 	          );

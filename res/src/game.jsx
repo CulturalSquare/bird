@@ -199,14 +199,27 @@ const Game = React.createClass({
             <div className="hidden content">点击重新开始 </div>
           </Link>
         </div>
-        <div className="ui three column grid game-container" ref="GameContainer" style={{width: window.GlobalConfig.gameWidth, position: 'relative'}}>
+        <div className="ui three column grid game-container" 
+            ref="GameContainer" 
+            style={{
+              position: 'relative', 
+              height: GlobalConfig.imgHeight,
+              width: GlobalConfig.imgWith,
+              backgroundImage: 'url(image/game/1.jpg)'
+            }}>
         {
           this.gameMap.map(function(index, i) {
+            let x = i % 3 * 33.33;
+            let y = parseInt(i / 3) * 33.33;
             return (
-              <div d={index + ''} className="column game_cell" key={i}>
-                <div className="ui card">
+              <div d={index + ''} className="column game_cell" key={i} >
+                <div d={index + ''} className="ui card imgPart" style={{
+                        height:'100%',
+                        background: 'url("image/game/' + this.props.params.img + '")',
+                        backgroundPosition: x + '% ' + y + '%'
+                      }}>
                   <a className="image">
-                    <img d={index} src={'image/game/' + window.PuzzleImages[i][0]} />
+                    <span d={index + ''} />
                   </a>
                 </div>
               </div>

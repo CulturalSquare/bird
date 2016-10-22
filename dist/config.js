@@ -9,8 +9,9 @@ var GlobalConfig = {
   title: '浙江省自然博物馆',
   website: 'http://www.atool.org/', // 自然博物馆网址
   time: 180, // 每次游戏的时间，多少秒 (180秒为3分钟)
-  gameWidth: '700px', // 游戏面板的宽度，用于调整防止出现翻页的情况
   indexWidth: '900px',
+  imgWith: '512px', // 图片的宽高，调整到适配屏幕
+  imgHeight: '384px'
 };
 
 // 配置拼图的原始图片，请将图片放到 imgage/game 目录

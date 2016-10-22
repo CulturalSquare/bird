@@ -378,3 +378,9 @@ pre {
 .game-container {
   margin: 0 auto!important;
 }
+
+
+.ui.card.imgPart {
+  background-repeat: no-repeat;
+  background-size: 33.33% 33.33%
+}
