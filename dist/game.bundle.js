@@ -25678,6 +25678,7 @@
 
 	  timer: null,
 	  // 随机出来的地图
+	  gameImgs: ['', '', '', '', '', '', '', '', ''], // 图片剪裁之后的base64
 	  gameMap: [0, 1, 2, 3, 4, 5, 7, 8, 9],
 	  // 正确答案
 	  answer: [0, 1, 2, 3, 4, 5, 7, 8, 9],
@@ -25708,8 +25709,6 @@
 	      this.gameMap = _arrayUtils2.default.randomArray(9);
 	      // 对于小于 6 的随机需要重新随机。
 	    } while (_arrayUtils2.default.arrayDiff(this.gameMap, this.answer) < 6);
-
-	    console.table(this.gameMap);
 	  },
 	  onMoveEnd: function onMoveEnd(i, e) {
 	    // 通过移动来判定图片位置，以及gameMap的调整
@@ -25793,35 +25792,40 @@
 	    var d = $('.game_cell[d="' + this.currDrag + '"]');
 	    d.css('z-index', 99999);
 	  },
+	  windowLoaded: function windowLoaded() {
+	    this.initGameBoard();
+	  },
+
+	  initGameBoard: function initGameBoard() {
+	    this.postions = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+	    this.leftTops = [];
+	    var cells = $('.game_cell');
+
+	    cells.each(function (index0, e) {
+	      e = $(e);
+	      var offset = e.offset();
+	      index0 = parseInt(e.attr('d'));
+	      this.postions[index0] = {
+	        x1: offset.left,
+	        x2: offset.left + e.width(),
+	        y1: offset.top,
+	        y2: offset.top + e.height()
+	      };
+	      // left top位置
+	      this.leftTops.push({ x: 0, y: 0 });
+	    }.bind(this));
+
+	    // counter down
+	    this.timer = window.setTimeout(this.countDown, 1000);
+
+	    cells.dragmove({
+	      onend: this.onMoveEnd,
+	      onstart: this.onStart
+	    });
+	  },
 	  componentDidMount: function componentDidMount() {
 	    // 页面渲染之后，获取不同块的位置信息。
-	    window.onload = function () {
-	      this.postions = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-	      this.leftTops = [];
-	      var cells = $('.game_cell');
-
-	      cells.each(function (index0, e) {
-	        e = $(e);
-	        var offset = e.offset();
-	        index0 = parseInt(e.attr('d'));
-	        this.postions[index0] = {
-	          x1: offset.left,
-	          x2: offset.left + e.width(),
-	          y1: offset.top,
-	          y2: offset.top + e.height()
-	        };
-	        // left top位置
-	        this.leftTops.push({ x: 0, y: 0 });
-	      }.bind(this));
-
-	      // counter down
-	      this.timer = window.setTimeout(this.countDown, 1000);
-
-	      cells.dragmove({
-	        onend: this.onMoveEnd,
-	        onstart: this.onStart
-	      });
-	    }.bind(this);
+	    window.onload = this.windowLoaded;
 	  },
 	  componentWillUnmount: function componentWillUnmount() {
 	    window.clearTimeout(this.timer);
@@ -25894,7 +25898,7 @@
 	      ),
 	      _react2.default.createElement(
 	        'div',
-	        { className: 'ui three column grid', style: { width: window.GlobalConfig.gameWidth, position: 'relative' } },
+	        { className: 'ui three column grid game-container', ref: 'GameContainer', style: { width: window.GlobalConfig.gameWidth, position: 'relative' } },
 	        this.gameMap.map(function (index, i) {
 	          return _react2.default.createElement(
 	            'div',
@@ -25905,11 +25909,11 @@
 	              _react2.default.createElement(
 	                'a',
 	                { className: 'image' },
-	                _react2.default.createElement('img', { d: index + '', src: 'image/game/' + window.PuzzleImages[index][0] })
+	                _react2.default.createElement('img', { d: index, src: 'image/game/' + window.PuzzleImages[i][0] })
 	              )
 	            )
 	          );
-	        })
+	        }.bind(this))
 	      )
 	    );
 	  },

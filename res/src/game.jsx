@@ -9,6 +9,7 @@ import pys from 'pys';
 const Game = React.createClass({
   timer: null,
   // 随机出来的地图
+  gameImgs: ['', '', '', '', '', '', '', '', ''], // 图片剪裁之后的base64
   gameMap: [0, 1, 2, 3, 4, 5, 7, 8, 9],
   // 正确答案
   answer: [0, 1, 2, 3, 4, 5, 7, 8, 9],
@@ -40,7 +41,6 @@ const Game = React.createClass({
       // 对于小于 6 的随机需要重新随机。
     } while (ArrayUtils.arrayDiff(this.gameMap, this.answer) < 6);
 
-    console.table(this.gameMap);
   },
   onMoveEnd: function(i ,e) {
     // 通过移动来判定图片位置，以及gameMap的调整
@@ -127,35 +127,40 @@ const Game = React.createClass({
     d.css('z-index', 99999);
     
   },
+  windowLoaded: function() {
+    this.initGameBoard();
+  },
+  
+  initGameBoard: function() {
+    this.postions = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    this.leftTops = [];
+    let cells = $('.game_cell');
+
+    cells.each(function(index0, e) {
+      e = $(e);
+      let offset = e.offset();
+      index0 = parseInt(e.attr('d'));
+      this.postions[index0] = {
+        x1: offset.left, 
+        x2: offset.left + e.width(), 
+        y1: offset.top, 
+        y2: offset.top + e.height()
+      };
+      // left top位置
+      this.leftTops.push({x:0, y:0});
+    }.bind(this));
+
+    // counter down
+    this.timer = window.setTimeout(this.countDown, 1000);
+
+    cells.dragmove({
+      onend: this.onMoveEnd,
+      onstart: this.onStart,
+    }); 
+  },
   componentDidMount: function() {
     // 页面渲染之后，获取不同块的位置信息。
-    window.onload = function() {
-      this.postions = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-      this.leftTops = [];
-      let cells = $('.game_cell');
-
-      cells.each(function(index0, e) {
-        e = $(e);
-        let offset = e.offset();
-        index0 = parseInt(e.attr('d'));
-        this.postions[index0] = {
-          x1: offset.left, 
-          x2: offset.left + e.width(), 
-          y1: offset.top, 
-          y2: offset.top + e.height()
-        };
-        // left top位置
-        this.leftTops.push({x:0, y:0});
-      }.bind(this));
-
-      // counter down
-      this.timer = window.setTimeout(this.countDown, 1000);
-
-      cells.dragmove({
-        onend: this.onMoveEnd,
-        onstart: this.onStart,
-      }); 
-    }.bind(this);
+    window.onload = this.windowLoaded;
   },
   componentWillUnmount: function() {
     window.clearTimeout(this.timer);
@@ -194,19 +199,19 @@ const Game = React.createClass({
             <div className="hidden content">点击重新开始 </div>
           </Link>
         </div>
-        <div className="ui three column grid" style={{width: window.GlobalConfig.gameWidth, position: 'relative'}}>
+        <div className="ui three column grid game-container" ref="GameContainer" style={{width: window.GlobalConfig.gameWidth, position: 'relative'}}>
         {
           this.gameMap.map(function(index, i) {
             return (
               <div d={index + ''} className="column game_cell" key={i}>
                 <div className="ui card">
                   <a className="image">
-                    <img d={index + ''} src={ 'image/game/' + window.PuzzleImages[index][0] } />
+                    <img d={index} src={'image/game/' + window.PuzzleImages[i][0]} />
                   </a>
                 </div>
               </div>
             )
-          })
+          }.bind(this))
         }
         </div>
       </div>

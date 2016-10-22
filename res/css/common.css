@@ -356,7 +356,25 @@ pre {
 
 .game_cell {
   /*position: relative;*/
+  margin: 0!important;
+  padding: 0!important;
 }
 .ui.card .meta, .ui.cards>.card .meta {
   color: rgba(0,0,0,.8);
+}
+
+.game_cell > .ui.card {
+  border-radius: 0;
+}
+
+.game_cell > .ui.card > .image {
+  border-radius: 0;
+}
+
+.game_cell > .ui.card img {
+  border-radius: 0;
+}
+
+.game-container {
+  margin: 0 auto!important;
 }
