@@ -7,17 +7,19 @@ import Index from '../index.jsx';
 const MainComponent = React.createClass({
   // random bg
   getBgImgUrl: function() {
-    return 'url(image/background.jpg)';
+    return 'url(' + GlobalConfig.background + ')';
   },
   render: function() {
+    let index = true;
+    if (this.props.children) {
+      index = false
+    }
     let children = this.props.children || <Index />;
     return (
       <div className="ui main main-content" id="main_content" style={{backgroundImage: this.getBgImgUrl()}}>
-        <Header />
-        <div className="ui container content">
-          { children }
-        </div>
-        <Footer />
+        { index && <Header />}
+        { children }
+         { index && <Footer />}
       </div>
     );
   }

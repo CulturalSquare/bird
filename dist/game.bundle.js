@@ -60,11 +60,7 @@
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _choose = __webpack_require__(230);
-
-	var _choose2 = _interopRequireDefault(_choose);
-
-	var _game = __webpack_require__(234);
+	var _game = __webpack_require__(226);
 
 	var _game2 = _interopRequireDefault(_game);
 
@@ -76,7 +72,6 @@
 	  _react2.default.createElement(
 	    _reactRouter.Route,
 	    { path: '/', component: _main2.default },
-	    _react2.default.createElement(_reactRouter.Route, { path: '/choose', component: _choose2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/game/:img', component: _game2.default })
 	  )
 	), document.querySelector('#wrapper'));
@@ -25445,11 +25440,11 @@
 
 	var _header2 = _interopRequireDefault(_header);
 
-	var _footer = __webpack_require__(225);
+	var _footer = __webpack_require__(224);
 
 	var _footer2 = _interopRequireDefault(_footer);
 
-	var _index = __webpack_require__(229);
+	var _index = __webpack_require__(225);
 
 	var _index2 = _interopRequireDefault(_index);
 
@@ -25460,20 +25455,20 @@
 
 	  // random bg
 	  getBgImgUrl: function getBgImgUrl() {
-	    return 'url(image/background.jpg)';
+	    return 'url(' + GlobalConfig.background + ')';
 	  },
 	  render: function render() {
+	    var index = true;
+	    if (this.props.children) {
+	      index = false;
+	    }
 	    var children = this.props.children || _react2.default.createElement(_index2.default, null);
 	    return _react2.default.createElement(
 	      'div',
 	      { className: 'ui main main-content', id: 'main_content', style: { backgroundImage: this.getBgImgUrl() } },
-	      _react2.default.createElement(_header2.default, null),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'ui container content' },
-	        children
-	      ),
-	      _react2.default.createElement(_footer2.default, null)
+	      index && _react2.default.createElement(_header2.default, null),
+	      children,
+	      index && _react2.default.createElement(_footer2.default, null)
 	    );
 	  }
 	});
@@ -25505,8 +25500,30 @@
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
-	      null,
-	      'Header'
+	      { className: 'ui inverted vertical center aligned segment custom_menu' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'ui container' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'ui large secondary inverted pointing menu' },
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/', className: 'active item' },
+	            '\u9996\u9875'
+	          ),
+	          _react2.default.createElement(
+	            'a',
+	            { href: GlobalConfig.website, className: 'item' },
+	            GlobalConfig.title
+	          ),
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/about', className: 'item' },
+	            '\u5173\u4E8E & \u4ECB\u7ECD'
+	          )
+	        )
+	      )
 	    );
 	  }
 	});
@@ -25517,57 +25534,7 @@
 /* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var StringUtils = {
-	  statusToTag: function statusToTag(status) {
-	    status = parseInt(status);
-	    var text = void 0,
-	        className = void 0;
-	    if (status == 1) {
-	      text = '等待';
-	      className = 'compact ui mini blue tag label';
-	    } else if (status == 2) {
-	      text = '执行';
-	      className = 'compact ui mini yellow tag label';
-	    } else if (status == 3) {
-	      text = '失败';
-	      className = 'compact ui mini red tag label';
-	    } else if (status == 4) {
-	      text = '成功';
-	      className = 'compact ui mini green tag label';
-	    } else if (status == 5) {
-	      text = '异常';
-	      className = 'compact ui mini red tag label';
-	    } else {
-	      text = '未知';
-	      className = 'compact ui mini grey tag label';
-	    }
-	    return _react2.default.createElement(
-	      'span',
-	      { className: className },
-	      text
-	    );
-	  }
-	};
-
-	exports.default = StringUtils;
-
-/***/ },
-/* 225 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -25580,13 +25547,33 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Footer = _react2.default.createClass({
-	  displayName: 'Footer',
+	  displayName: "Footer",
 
 	  render: function render() {
 	    return _react2.default.createElement(
-	      'div',
-	      null,
-	      'footer'
+	      "div",
+	      { className: "ui inverted vertical footer segment" },
+	      _react2.default.createElement(
+	        "div",
+	        { className: "ui center aligned container" },
+	        _react2.default.createElement(
+	          "div",
+	          { className: "ui horizontal inverted small divided link list" },
+	          _react2.default.createElement(
+	            "span",
+	            null,
+	            "\xA9 2016 \u2665",
+	            _react2.default.createElement(
+	              "a",
+	              { target: "_blank", href: GlobalConfig.website },
+	              " ",
+	              GlobalConfig.title,
+	              " "
+	            ),
+	            "\u2665 \u7248\u6743\u6240\u6709"
+	          )
+	        )
+	      )
 	    );
 	  }
 	});
@@ -25594,75 +25581,7 @@
 	exports.default = Footer;
 
 /***/ },
-/* 226 */,
-/* 227 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _onfire = __webpack_require__(228);
-
-	var _onfire2 = _interopRequireDefault(_onfire);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var OnFireMixin = {
-	  bindingEvents: {}, // 缓存这个组件绑定的事件，用于在组建取消的时候结束八达岭
-	  // 绑定事件
-	  on: function on(eventName, callback) {
-	    var eventObject = _onfire2.default.on(eventName, callback);
-
-	    // 如果为空，则设置为数组
-	    if (!this.bindingEvents[this.__ONFIRE__]) {
-	      this.bindingEvents[this.__ONFIRE__] = {};
-	    }
-	    this.bindingEvents[this.__ONFIRE__][eventObject[1]] = eventObject;
-
-	    return eventObject;
-	  },
-	  // 取消绑定事件
-	  un: function un(eventObject) {
-	    if (this.bindingEvents[this.__ONFIRE__]) {
-	      delete this.bindingEvents[this.__ONFIRE__][eventObject[1]];
-	      return _onfire2.default.un(eventObject);
-	    }
-	    return true;
-	  },
-	  // 触发事件
-	  fire: function fire(eventName, data) {
-	    return _onfire2.default.fire(eventName, data);
-	  },
-
-	  componentDidMount: function componentDidMount() {
-	    // 校验有没有__ONFIRE__属性
-	    if (!this.__ONFIRE__) {
-	      throw new Error('Component should has attribute __ONFIRE__ if you want to use OnFireMixin.');
-	    }
-	  },
-	  // when unmont, un all the event
-	  componentWillUnmount: function componentWillUnmount() {
-	    if (this.bindingEvents[this.__ONFIRE__]) {
-	      for (var key in this.bindingEvents[this.__ONFIRE__]) {
-	        this.un(this.bindingEvents[this.__ONFIRE__][key]);
-	      }
-	    }
-	  }
-	};
-
-	exports.default = OnFireMixin;
-
-/***/ },
-/* 228 */
-/***/ function(module, exports) {
-
-	!function(n,t){"object"==typeof module&&module.exports?module.exports=t():n.onfire=t()}("undefined"!=typeof window?window:this,function(){function n(n,t,e,o){if(typeof n!==p||typeof t!==a)throw new Error("args: "+p+", "+a);return y(l,n)||(l[n]={}),l[n][++d]=[t,e,o],[n,d]}function t(n,t){for(var e in n)y(n,e)&&t(e,n[e])}function e(t,e,o){return n(t,e,0,o)}function o(t,e,o){return n(t,e,1,o)}function i(n,e){y(l,n)&&t(l[n],function(t,o){o[0].apply(o[2],e),o[1]&&delete l[n][t]})}function r(n){var t=s(arguments,1);setTimeout(function(){i(n,t)})}function u(n){i(n,s(arguments,1))}function f(n){var e,o,i=!1,r=typeof n;return r===p?!!y(l,n)&&(delete l[n],!0):"object"===r?(e=n[0],o=n[1],!(!y(l,e)||!y(l[e],o))&&(delete l[e][o],!0)):r!==a||(t(l,function(e,o){t(o,function(t,o){o[0]===n&&(delete l[e][t],i=!0)})}),i)}function c(){l={}}var l={},d=0,p="string",a="function",y=Function.call.bind(Object.hasOwnProperty),s=Function.call.bind(Array.prototype.slice);return{on:e,one:o,un:f,fire:r,fireSync:u,clear:c}});
-
-/***/ },
-/* 229 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25685,11 +25604,34 @@
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
-	      null,
+	      { className: 'ui container content index-container' },
 	      _react2.default.createElement(
-	        _reactRouter.Link,
-	        { to: 'choose' },
-	        '\u9009\u62E9\u62FC\u56FE\u56FE\u7247'
+	        'div',
+	        { className: 'ui three column grid', style: { width: GlobalConfig.gameWidth } },
+	        window.PuzzleImages.map(function (img, i) {
+	          return _react2.default.createElement(
+	            'div',
+	            { className: 'column', key: i },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'ui card' },
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { className: 'image', to: '/game/' + img[0] },
+	                _react2.default.createElement('img', { src: 'image/game/' + img[0] })
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'content' },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'meta' },
+	                  img[1]
+	                )
+	              )
+	            )
+	          );
+	        })
 	      )
 	    );
 	  }
@@ -25698,7 +25640,7 @@
 	exports.default = Index;
 
 /***/ },
-/* 230 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25713,214 +25655,383 @@
 
 	var _reactRouter = __webpack_require__(159);
 
-	var _onFireMixin = __webpack_require__(227);
+	var _dateUtils = __webpack_require__(227);
 
-	var _onFireMixin2 = _interopRequireDefault(_onFireMixin);
+	var _dateUtils2 = _interopRequireDefault(_dateUtils);
 
-	var _tipShowMixin = __webpack_require__(231);
+	var _arrayUtils = __webpack_require__(228);
 
-	var _tipShowMixin2 = _interopRequireDefault(_tipShowMixin);
+	var _arrayUtils2 = _interopRequireDefault(_arrayUtils);
 
-	var _xhrRequestsMixin = __webpack_require__(232);
+	var _posUtils = __webpack_require__(229);
 
-	var _xhrRequestsMixin2 = _interopRequireDefault(_xhrRequestsMixin);
+	var _posUtils2 = _interopRequireDefault(_posUtils);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _pys = __webpack_require__(230);
 
-	var Choose = _react2.default.createClass({
-	  displayName: 'Choose',
-
-	  __ONFIRE__: 'Choose',
-	  mixins: [_xhrRequestsMixin2.default, _onFireMixin2.default, _tipShowMixin2.default], // 引入 mixin
-	  getInitialState: function getInitialState() {
-	    return {};
-	  },
-	  componentDidMount: function componentDidMount() {},
-	  render: function render() {
-	    return _react2.default.createElement(
-	      'div',
-	      null,
-	      _react2.default.createElement(
-	        _reactRouter.Link,
-	        { to: '/game/1.jpg' },
-	        '\u5F00\u59CB\u73A9\u6E38\u620F\uFF01'
-	      )
-	    );
-	  }
-	});
-
-	exports.default = Choose;
-
-/***/ },
-/* 231 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _stringUtils = __webpack_require__(224);
-
-	var _stringUtils2 = _interopRequireDefault(_stringUtils);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	/*
-	一个用于提示的Mixin，如何使用？
-	1. 在component中引入本文件，得到 TipShowMixin 的变量
-	2. 在组件中添加： mixins: [TipShowMixin],
-	3. 在需要提示信息的地方加上ref="tip*",即使用以tip开头的任意字符串作为dom的ref
-	4. 同时设置这个ref的data-content="需要提示的字符串"
-	*/
-	var TipShowMixin = {
-	  renderTip: function renderTip() {
-	    for (var key in this.refs) {
-	      if (key.indexOf('tip') === 0 && !_stringUtils2.default.isEmpty(this.refs[key].getAttribute('data-content'))) {
-	        // 以tip开头的dom组件，并且有data-content属性，全部都是需要提示的
-	        var position = this.refs[key].getAttribute('data-position');
-	        if (position != null && position != '') {
-	          $(this.refs[key]).popup({ inline: true, hoverable: true, position: position });
-	        } else {
-	          $(this.refs[key]).popup({ inline: true, hoverable: true, position: 'bottom left' });
-	        }
-	      }
-	    }
-	  },
-	  // 显示一些提示框
-	  componentDidMount: function componentDidMount() {
-	    this.renderTip();
-	  },
-
-	  showWarning: function showWarning(msg) {
-	    this.fire('show_alert', { tip: msg, type: 'warning' });
-	  },
-	  showError: function showError(msg) {
-	    this.fire('show_alert', { tip: msg, type: 'error' });
-	  },
-	  showSuccess: function showSuccess(msg) {
-	    this.fire('show_alert', { tip: msg, type: 'success' });
-	  },
-	  showInfo: function showInfo(msg) {
-	    this.fire('show_alert', { tip: msg, type: 'info' });
-	  }
-	};
-	exports.default = TipShowMixin;
-
-/***/ },
-/* 232 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _xhr = __webpack_require__(233);
-
-	var _xhr2 = _interopRequireDefault(_xhr);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var RequestsMixin = {
-	  xhrs: Array(),
-	  // get method
-	  get: function get(url, params, success, failed) {
-	    var xhr = (0, _xhr2.default)();
-	    xhr.on('error', failed);
-	    xhr.on('fail', failed);
-
-	    this.xhrs.push(xhr);
-
-	    xhr.get(url, params, success);
-	  },
-	  // post method
-	  post: function post(url, params, success, failed) {
-	    var xhr = (0, _xhr2.default)();
-	    xhr.on('error', failed);
-	    xhr.on('fail', failed);
-
-	    this.xhrs.push(xhr);
-
-	    xhr.post(url, params, success);
-	  },
-
-	  componentDidMount: function componentDidMount() {},
-	  // when unmont, abort all the request.
-	  componentWillUnmount: function componentWillUnmount() {
-	    this.xhrs.map(function (xhr) {
-	      xhr.abort();
-	      xhr = null;
-	    });
-	    this.xhrs = Array();
-	  }
-	};
-
-	exports.default = RequestsMixin;
-
-/***/ },
-/* 233 */
-/***/ function(module, exports) {
-
-	!function(e,t){"object"==typeof module&&module.exports?module.exports=t(e):e.XHR=t(e)}("undefined"!=typeof window?window:this,function(){var e=function(e){var t=function(e){var t=e.responseText,n=e.status,r=e.statusText,o=e.responseType,u=e.getAllResponseHeaders(),s=function(){try{return JSON.parse(t)}catch(e){return null}},c=e.responseXML,i=function(){return c},f=null,a=function(){if(null===f&&(f={},u))for(var e=u.split("\n"),t="",n=0;n<e.length;n++)t=e[n].split(": "),t&&2===t.length&&t[0]&&(f[t[0]]=t[1]);return f};return{text:t,status_code:n,status_text:r,response_type:o,header_text:u,json:s,xml:i,headers:a}},n=function(){},r=function(){return{ready:n,error:n,success:n,fail:n}},o="",u="",s={},c="",i=e!==!1,f=r(),a=new XMLHttpRequest,p=function(e,t){"ready"!==e&&"error"!==e&&"success"!==e&&"fail"!==e||"function"==typeof t&&(f[e]=t)},l=function(){var e=t(a);4===a.readyState?(f.ready(e,g),200===a.status?f.success(e,g):f.fail(e,g)):f.error(e,g)},d=function(e,t){s[e]=t},y=function(e){i=e},x=function(e){if(e&&"object"==typeof e){var t=encodeURIComponent,n=[];for(var r in e)n.push(t(r)+"="+t(e[r]));return n.join("&")}return""},h=function(e,t,n,r,s){return o=e,u=t,c=n,p("success",r),p("fail",s),T()},v=function(e,t,n,r){return t=x(t),t&&(e=e+"?"+t),h("GET",e,"",n,r)},w=function(e,t,n,r){return d("Content-Type","application/json"),"object"==typeof t&&(t=x(t),d("Content-Type","application/x-www-form-urlencoded")),h("POST",e,t,n,r)},T=function(){a.open(o,u,i);for(var e in s)a.setRequestHeader(e,s[e]);return a.onreadystatechange=l,a.send(c),g},b=function(){a&&a.abort()},j=function(){return u},m=function(){return c},R=function(){i=!0,u="",c="",o="",s={},f=r()},g={url:j,body:m,on:p,setRequestHeader:d,setAsync:y,request:h,get:v,post:w,abort:b,reset:R};return g};return e});
-
-/***/ },
-/* 234 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRouter = __webpack_require__(159);
-
-	var _onFireMixin = __webpack_require__(227);
-
-	var _onFireMixin2 = _interopRequireDefault(_onFireMixin);
-
-	var _tipShowMixin = __webpack_require__(231);
-
-	var _tipShowMixin2 = _interopRequireDefault(_tipShowMixin);
-
-	var _xhrRequestsMixin = __webpack_require__(232);
-
-	var _xhrRequestsMixin2 = _interopRequireDefault(_xhrRequestsMixin);
+	var _pys2 = _interopRequireDefault(_pys);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Game = _react2.default.createClass({
 	  displayName: 'Game',
 
-	  __ONFIRE__: 'Game',
-	  mixins: [_xhrRequestsMixin2.default, _onFireMixin2.default, _tipShowMixin2.default], // 引入 mixin
+	  timer: null,
+	  // 随机出来的地图
+	  gameMap: [0, 1, 2, 3, 4, 5, 7, 8, 9],
+	  // 正确答案
+	  answer: [0, 1, 2, 3, 4, 5, 7, 8, 9],
+	  postions: [], // 不同位置图片的位置，仅仅用于判断卡片重叠
+	  leftTops: [],
+	  currDrag: -1, // 当前滑动的序号
+	  dragPos: [0, 0], // 当前滑动的位置
 	  getInitialState: function getInitialState() {
-	    return {};
+	    return {
+	      seconds: window.GlobalConfig.time,
+	      status: 'gaming' // 游戏中的状态
+	    };
 	  },
-	  componentDidMount: function componentDidMount() {},
-	  render: function render() {
+	  countDown: function countDown() {
+	    var seconds = this.state.seconds;
+	    if (seconds <= 0) {
+	      this.setState({ status: 'fail' }); // 失败
+	      return;
+	    }
+	    this.setState({ seconds: --this.state.seconds });
+	    this.timer = window.setTimeout(this.countDown, 1000);
+	  },
+
+	  componentWillMount: function componentWillMount() {
+	    console.log('componentWillMount');
+	    // 随机生成拼图。
+	    do {
+	      this.gameMap = _arrayUtils2.default.randomArray(9);
+	      // 对于小于 6 的随机需要重新随机。
+	    } while (_arrayUtils2.default.arrayDiff(this.gameMap, this.answer) < 6);
+
+	    console.table(this.gameMap);
+	  },
+	  onMoveEnd: function onMoveEnd(i, e) {
+	    // 通过移动来判定图片位置，以及gameMap的调整
+	    var index0 = $(e.target).attr('d');
+	    if (index0 === undefined) {
+	      index0 = this.currDrag;
+	    } else {
+	      index0 = parseInt(index0);
+	    }
+
+	    var d = $('.game_cell[d="' + index0 + '"]');
+	    var x = d.offset().left;
+	    var y = d.offset().top;
+	    // console.log(d.innerHeight)
+	    var center_x = x + d.width() / 2;
+	    var center_y = y + d.height() / 2;
+
+	    this.dragPos = [center_x, center_y];
+
+	    var which = _posUtils2.default.inWhichRect(this.dragPos, this.postions);
+	    var currDragDom = $('.game_cell[d="' + this.currDrag + '"]');
+	    if (which === -1 || which === this.currDrag) {
+	      // 不需要交换，直接归位即可
+	      // which = this.currDrag;
+	      currDragDom.animate({
+	        left: this.leftTops[this.currDrag].x + 'px',
+	        top: this.leftTops[this.currDrag].y + 'px'
+	      }, 100, null, function () {
+	        currDragDom.css('z-index', 1);
+	      });
+	    } else {
+	      // 需要进行交换 this.currDrag <----> which
+	      var currDragPos = this.postions[this.currDrag];
+	      var whichDragPos = this.postions[which];
+	      // 两个点的距离差距
+	      var gap = {
+	        x: currDragPos.x1 - whichDragPos.x1,
+	        y: currDragPos.y1 - whichDragPos.y1
+	      };
+
+	      // 交换位置
+	      this.leftTops[which].x += gap.x;
+	      this.leftTops[which].y += gap.y;
+	      this.leftTops[this.currDrag].x -= gap.x;
+	      this.leftTops[this.currDrag].y -= gap.y;
+
+	      // 交换判定位置
+	      this.postions[which].x1 += gap.x;
+	      this.postions[which].x2 += gap.x;
+	      this.postions[which].y1 += gap.y;
+	      this.postions[which].y2 += gap.y;
+
+	      this.postions[this.currDrag].x1 -= gap.x;
+	      this.postions[this.currDrag].x2 -= gap.x;
+	      this.postions[this.currDrag].y1 -= gap.y;
+	      this.postions[this.currDrag].y2 -= gap.y;
+
+	      $('.game_cell[d="' + which + '"]').animate({
+	        left: this.leftTops[which].x + 'px',
+	        top: this.leftTops[which].y + 'px'
+	      }, 100, null, function () {
+	        currDragDom.css('z-index', 1);
+	      });
+
+	      $('.game_cell[d="' + this.currDrag + '"]').animate({
+	        left: this.leftTops[this.currDrag].x + 'px',
+	        top: this.leftTops[this.currDrag].y + 'px'
+	      }, 100, null, function () {
+	        currDragDom.css('z-index', 1);
+	      });
+	    }
+
+	    // 然后判断是否成功
+	    if (_arrayUtils2.default.arrayDiff(this.gameMap, this.answer) === 0) {
+	      this.setState({ status: 'success' }); // 成功
+	    }
+	  },
+	  onStart: function onStart(i, e) {
+	    this.currDrag = parseInt($(e.target).attr('d'));
+
+	    var d = $('.game_cell[d="' + this.currDrag + '"]');
+	    d.css('z-index', 99999);
+	  },
+	  componentDidMount: function componentDidMount() {
+	    // 页面渲染之后，获取不同块的位置信息。
+	    window.onload = function () {
+	      this.postions = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+	      this.leftTops = [];
+	      var cells = $('.game_cell');
+
+	      cells.each(function (index0, e) {
+	        e = $(e);
+	        var offset = e.offset();
+	        index0 = parseInt(e.attr('d'));
+	        this.postions[index0] = {
+	          x1: offset.left,
+	          x2: offset.left + e.width(),
+	          y1: offset.top,
+	          y2: offset.top + e.height()
+	        };
+	        // left top位置
+	        this.leftTops.push({ x: 0, y: 0 });
+	      }.bind(this));
+
+	      // counter down
+	      this.timer = window.setTimeout(this.countDown, 1000);
+
+	      cells.dragmove({
+	        onend: this.onMoveEnd,
+	        onstart: this.onStart
+	      });
+	    }.bind(this);
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    window.clearTimeout(this.timer);
+	  },
+	  renderSuccess: function renderSuccess() {
 	    return _react2.default.createElement(
 	      'div',
 	      null,
-	      '\u6210\u529F\u3001\u5931\u8D25:',
-	      this.props.params.img,
+	      'renderSuccess'
+	    );
+	  },
+	  renderFail: function renderFail() {
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      'renderFail'
+	    );
+	  },
+	  renderGameBoard: function renderGameBoard() {
+	    if (this.state.status === 'gaming') {
+	      return this.renderGaming();
+	    } else if (this.state.status === 'success') {
+	      return this.renderSuccess();
+	    } else if (this.state.status === 'fail') {
+	      return this.renderSuccess();
+	    } else {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        'error.'
+	      );
+	    }
+	  },
+	  renderGaming: function renderGaming() {
+	    return _react2.default.createElement(
+	      'div',
+	      null,
 	      _react2.default.createElement(
-	        _reactRouter.Link,
-	        { to: '/' },
-	        '\u8FD4\u56DE\u9996\u9875'
+	        'div',
+	        { className: 'ui inverted statistics' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'statistic' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'value' },
+	            _react2.default.createElement('i', { className: 'clock icon' }),
+	            ' ',
+	            _react2.default.createElement(
+	              'span',
+	              { ref: 'counter' },
+	              _dateUtils2.default.formatSec(this.state.seconds)
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          _reactRouter.Link,
+	          { to: '/', className: 'ui animated fade button', tabIndex: '0' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'visible content' },
+	            '\u91CD\u65B0\u5F00\u59CB\u6E38\u620F'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'hidden content' },
+	            '\u70B9\u51FB\u91CD\u65B0\u5F00\u59CB '
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'ui three column grid', style: { width: window.GlobalConfig.gameWidth, position: 'relative' } },
+	        this.gameMap.map(function (index, i) {
+	          return _react2.default.createElement(
+	            'div',
+	            { d: index + '', className: 'column game_cell', key: i },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'ui card' },
+	              _react2.default.createElement(
+	                'a',
+	                { className: 'image' },
+	                _react2.default.createElement('img', { d: index + '', src: 'image/game/' + window.PuzzleImages[index][0] })
+	              )
+	            )
+	          );
+	        })
 	      )
+	    );
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'ui container content index-container' },
+	      this.renderGameBoard()
 	    );
 	  }
 	});
 
 	exports.default = Game;
+
+/***/ },
+/* 227 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var DateUtils = {
+	  formatSec: function formatSec(sec) {
+	    var second = parseInt(sec) % 60;
+	    var minute = parseInt(sec - second) / 60;
+	    if (second < 0) second = 0;
+	    if (second < 10) second = '0' + second;
+	    if (minute < 10) minute = '0' + minute;
+	    return minute + ':' + second;
+	  }
+	};
+
+	exports.default = DateUtils;
+
+/***/ },
+/* 228 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ArrayUtils = {
+	  randomArray: function randomArray(length) {
+	    var i,
+	        index,
+	        temp,
+	        arr = [];
+	    length = typeof length === 'undefined' ? 9 : length;
+	    for (i = 0; i < length; i++) {
+	      arr.push(i);
+	    }
+	    // 打乱数组
+	    for (i = 0; i < length; i++) {
+	      // 产生从 i 到 length 之间的随机数
+	      index = parseInt(Math.random() * (length - i)) + i;
+	      if (index != i) {
+	        temp = arr[i];
+	        arr[i] = arr[index];
+	        arr[index] = temp;
+	      }
+	    }
+	    return arr;
+	  },
+	  arrayDiff: function arrayDiff(a1, a2) {
+	    var min = Math.min(a1.length, a2.length);
+	    var max = Math.min(a1.length, a2.length);
+	    var diff = max - min;
+	    for (var i = 0; i < min; i++) {
+	      if (a1[i] != a2[i]) diff++;
+	    }
+	    return diff;
+	  }
+	};
+
+	exports.default = ArrayUtils;
+
+/***/ },
+/* 229 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var PosUtils = {
+	  posInRect: function posInRect(p, rect) {
+	    if (p[0] <= rect.x2 && p[0] >= rect.x1 && p[1] <= rect.y2 && p[1] >= rect.y1) {
+	      return true;
+	    }
+	    return false;
+	  },
+	  inWhichRect: function inWhichRect(p, positons) {
+	    var len = positons.length,
+	        i = void 0;
+	    for (i = 0; i < len; i++) {
+	      if (this.posInRect(p, positons[i])) {
+	        return i;
+	      }
+	    }
+	    return -1;
+	  }
+	};
+
+	exports.default = PosUtils;
+
+/***/ },
+/* 230 */
+/***/ function(module, exports) {
+
+	!function(n,e){"object"==typeof module&&module.exports?module.exports=e():n.pys=e()}("undefined"!=typeof window?window:this,function(){function n(n){function e(n){throw new Error(n)}function t(n,e){return n=n.replace(/(^\s*)|(\s*$)/g,""),""===n?e:parseInt(n)}function r(n){return n!==s&&isNaN(n)}function o(n){return i(n).join("")}function i(o){o=(o+"").split(":");var i,u,c,f=o.length,l=[],a=n.length;if(f>0&&(i=t(o[0],0)),f>1&&(u=t(o[1],a)),f>2&&(c=t(o[2],1)),(i===s||r(i)||r(u)||r(c))&&e("slice indices must be integer / blank."),u===s&&(u=i+1),c===s&&(c=1),i=i<0?a+i:i,u=u<0?a+u:u,0===c&&e("slice step cannot be zero."),u===i||(u-i)*c<0)return l;if(c>0)for(;i<u;i+=c)l.push(n[i]);else for(;u<i;i+=c)l.push(n[i]);return l}function u(n){return n={}.toString.call(n).slice(8,-1).toLowerCase(),"string"===n?o:"array"===n?i:void e("object must be string / array.")}var s;return u(n)}return n});
 
 /***/ }
 /******/ ]);

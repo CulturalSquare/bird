@@ -37,7 +37,8 @@
     "timeago-react": ">=1.0.6",
     "timeago.js": ">=2.0.2",
     "xhr.js": ">=1.0.2",
-    "pys": ">=1.0.3"
+    "pys": ">=1.0.3",
+    "react-dragula": ">=1.1.17"
   },
   "peerDependencies": {
     "react": ">=0.13.2 || ^0.14 || ^15.0.0"
