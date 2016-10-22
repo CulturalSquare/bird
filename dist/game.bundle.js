@@ -25917,7 +25917,8 @@
 	              { d: index + '', className: 'ui card imgPart', style: {
 	                  height: '100%',
 	                  background: 'url("image/game/' + this.props.params.img + '")',
-	                  backgroundPosition: x + '% ' + y + '%'
+	                  backgroundSize: '100%',
+	                  backgroundPosition: -x + '% ' + -y + '%'
 	                } },
 	              _react2.default.createElement(
 	                'a',

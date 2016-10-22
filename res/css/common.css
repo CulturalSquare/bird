@@ -382,5 +382,5 @@ pre {
 
 .ui.card.imgPart {
   background-repeat: no-repeat;
-  background-size: 33.33% 33.33%
+  /*background-size: 33.33% 33.33%*/
 }

@@ -216,7 +216,8 @@ const Game = React.createClass({
                 <div d={index + ''} className="ui card imgPart" style={{
                         height:'100%',
                         background: 'url("image/game/' + this.props.params.img + '")',
-                        backgroundPosition: x + '% ' + y + '%'
+                        backgroundSize: '100%',
+                        backgroundPosition: (-x) + '% ' + (-y) + '%'
                       }}>
                   <a className="image">
                     <span d={index + ''} />
