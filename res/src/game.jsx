@@ -199,22 +199,20 @@ const Game = React.createClass({
             position: 'relative', 
             height: GlobalConfig.imgHeight,
             width: GlobalConfig.imgWith,
-            backgroundImage: 'url(' + GlobalConfig.background + ')'
           }}>
       {
         this.gameMap.map(function(index, i) {
           let x = index % 3 * 33.33 / 100;
           let y = parseInt(index / 3) * 33.33 / 100;
           return (
-            <div d={index + ''} className="column game_cell" key={i} >
+            <div d={index + ''} 
+                className="column game_cell" 
+                key={i} >
               <div d={index + ''} className="ui card imgPart" style={{
                       height:'100%',
                       background: 'url("image/game/' + this.props.params.img + '")',
                       backgroundPosition: (-x * GlobalConfig.imgWith) + 'px ' + (-y * GlobalConfig.imgHeight) + 'px'
                     }}>
-                <a className="image">
-                  <span d={index + ''} />
-                </a>
               </div>
             </div>
           )

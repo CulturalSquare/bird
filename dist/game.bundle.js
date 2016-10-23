@@ -25872,28 +25872,21 @@
 	        style: {
 	          position: 'relative',
 	          height: GlobalConfig.imgHeight,
-	          width: GlobalConfig.imgWith,
-	          backgroundImage: 'url(' + GlobalConfig.background + ')'
+	          width: GlobalConfig.imgWith
 	        } },
 	      this.gameMap.map(function (index, i) {
 	        var x = index % 3 * 33.33 / 100;
 	        var y = parseInt(index / 3) * 33.33 / 100;
 	        return _react2.default.createElement(
 	          'div',
-	          { d: index + '', className: 'column game_cell', key: i },
-	          _react2.default.createElement(
-	            'div',
-	            { d: index + '', className: 'ui card imgPart', style: {
-	                height: '100%',
-	                background: 'url("image/game/' + this.props.params.img + '")',
-	                backgroundPosition: -x * GlobalConfig.imgWith + 'px ' + -y * GlobalConfig.imgHeight + 'px'
-	              } },
-	            _react2.default.createElement(
-	              'a',
-	              { className: 'image' },
-	              _react2.default.createElement('span', { d: index + '' })
-	            )
-	          )
+	          { d: index + '',
+	            className: 'column game_cell',
+	            key: i },
+	          _react2.default.createElement('div', { d: index + '', className: 'ui card imgPart', style: {
+	              height: '100%',
+	              background: 'url("image/game/' + this.props.params.img + '")',
+	              backgroundPosition: -x * GlobalConfig.imgWith + 'px ' + -y * GlobalConfig.imgHeight + 'px'
+	            } })
 	        );
 	      }.bind(this))
 	    );
