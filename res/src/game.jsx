@@ -9,10 +9,9 @@ import pys from 'pys';
 const Game = React.createClass({
   timer: null,
   // 随机出来的地图
-  gameImgs: ['', '', '', '', '', '', '', '', ''], // 图片剪裁之后的base64
-  gameMap: [0, 1, 2, 3, 4, 5, 7, 8, 9],
+  gameMap: [0, 1, 2, 3, 4, 5, 6, 7, 8],
   // 正确答案
-  answer: [0, 1, 2, 3, 4, 5, 7, 8, 9],
+  answer: [0, 1, 2, 3, 4, 5, 6, 7, 8],
   postions: [], // 不同位置图片的位置，仅仅用于判断卡片重叠
   leftTops:[],
   currDrag: -1, // 当前滑动的序号
@@ -29,12 +28,11 @@ const Game = React.createClass({
       this.setState({status: 'fail'}); // 失败
       return ;
     }
-    this.setState({seconds: --this.state.seconds});
+    this.refs.counter.innerHTML = DateUtils.formatSec(--this.state.seconds);
     this.timer = window.setTimeout(this.countDown, 1000);
   },
 
   componentWillMount: function() {
-    console.log('componentWillMount');
     // 随机生成拼图。
     do {
       this.gameMap = ArrayUtils.randomArray(9);
@@ -55,7 +53,6 @@ const Game = React.createClass({
     let d = $('.game_cell[d="' + index0 + '"]');
     let x = d.offset().left;
     let y = d.offset().top;
-    // console.log(d.innerHeight)
     let center_x = x + d.width() / 2;
     let center_y = y + d.height() / 2;
 
@@ -113,8 +110,17 @@ const Game = React.createClass({
       }, 100, null, function() {
         currDragDom.css('z-index', 1);
       });
+
+       // 交换map （this.currDrag 《----》 which）
+       for (var i = 0; i < this.gameMap.length; i ++) {
+         if (this.gameMap[i] === this.currDrag) {
+            this.gameMap[i] = which;
+         }
+         else if (this.gameMap[i] === which) {
+            this.gameMap[i] = this.currDrag;
+         }
+       }
     }
-    
     // 然后判断是否成功
     if (ArrayUtils.arrayDiff(this.gameMap, this.answer) === 0) {
       this.setState({status: 'success'}); // 成功
@@ -160,7 +166,7 @@ const Game = React.createClass({
   },
   componentDidMount: function() {
     // 页面渲染之后，获取不同块的位置信息。
-    window.onload = this.windowLoaded;
+    this.windowLoaded();
   },
   componentWillUnmount: function() {
     window.clearTimeout(this.timer);
@@ -179,7 +185,7 @@ const Game = React.createClass({
       return this.renderSuccess()
     }
     else if (this.state.status === 'fail') {
-      return this.renderSuccess()
+      return this.renderFail()
     }
     else {
       return (<div>error.</div>)
@@ -187,56 +193,56 @@ const Game = React.createClass({
   },
   renderGaming: function() {
     return (
-      <div>
-        <div className="ui inverted statistics">
-          <div className="statistic">
-            <div className="value">
-              <i className="clock icon"></i> <span ref='counter'>{DateUtils.formatSec(this.state.seconds)}</span> 
-            </div>
-          </div>
-          <Link to='/' className="ui animated fade button" tabIndex="0">
-            <div className="visible content">重新开始游戏</div>
-            <div className="hidden content">点击重新开始 </div>
-          </Link>
-        </div>
-        <div className="ui three column grid game-container" 
-            ref="GameContainer" 
-            style={{
-              position: 'relative', 
-              height: GlobalConfig.imgHeight,
-              width: GlobalConfig.imgWith,
-              backgroundImage: 'url(image/game/1.jpg)'
-            }}>
-        {
-          this.gameMap.map(function(index, i) {
-            let x = i % 3 * 33.33;
-            let y = parseInt(i / 3) * 33.33;
-            return (
-              <div d={index + ''} className="column game_cell" key={i} >
-                <div d={index + ''} className="ui card imgPart" style={{
-                        height:'100%',
-                        background: 'url("image/game/' + this.props.params.img + '")',
-                        backgroundSize: '100%',
-                        backgroundPosition: (-x) + '% ' + (-y) + '%'
-                      }}>
-                  <a className="image">
-                    <span d={index + ''} />
-                  </a>
-                </div>
+      <div className="ui three column grid game-container" 
+          ref="GameContainer" 
+          style={{
+            position: 'relative', 
+            height: GlobalConfig.imgHeight,
+            width: GlobalConfig.imgWith,
+            backgroundImage: 'url(' + GlobalConfig.background + ')'
+          }}>
+      {
+        this.gameMap.map(function(index, i) {
+          let x = index % 3 * 33.33 / 100;
+          let y = parseInt(index / 3) * 33.33 / 100;
+          return (
+            <div d={index + ''} className="column game_cell" key={i} >
+              <div d={index + ''} className="ui card imgPart" style={{
+                      height:'100%',
+                      background: 'url("image/game/' + this.props.params.img + '")',
+                      backgroundPosition: (-x * GlobalConfig.imgWith) + 'px ' + (-y * GlobalConfig.imgHeight) + 'px'
+                    }}>
+                <a className="image">
+                  <span d={index + ''} />
+                </a>
               </div>
-            )
-          }.bind(this))
-        }
-        </div>
+            </div>
+          )
+        }.bind(this))
+      }
       </div>
     );
   },
   render: function() {
     return (
       <div className="ui container content index-container">
-        {
-          this.renderGameBoard()
-        }
+        <div>
+          <div className="ui inverted statistics">
+            <div className="statistic">
+              <div className="value">
+                <i className="clock icon"></i> 
+                <span ref='counter'>{DateUtils.formatSec(GlobalConfig.time)}</span> 
+              </div>
+            </div>
+            <Link to='/' className="ui animated fade button" tabIndex="0">
+              <div className="visible content">重新开始游戏</div>
+              <div className="hidden content">点击重新开始 </div>
+            </Link>
+          </div>
+          {
+            this.renderGameBoard()
+          }
+        </div>
       </div>
     );
   }

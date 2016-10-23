@@ -5,7 +5,7 @@ var GlobalConfig = {
     y: 3
   },
   logo: 'image/logo.png',
-  background: 'image/game/1.jpg',
+  background: 'image/background.jpg',
   title: '浙江省自然博物馆',
   website: 'http://www.atool.org/', // 自然博物馆网址
   time: 180, // 每次游戏的时间，多少秒 (180秒为3分钟)

@@ -25678,10 +25678,9 @@
 
 	  timer: null,
 	  // 随机出来的地图
-	  gameImgs: ['', '', '', '', '', '', '', '', ''], // 图片剪裁之后的base64
-	  gameMap: [0, 1, 2, 3, 4, 5, 7, 8, 9],
+	  gameMap: [0, 1, 2, 3, 4, 5, 6, 7, 8],
 	  // 正确答案
-	  answer: [0, 1, 2, 3, 4, 5, 7, 8, 9],
+	  answer: [0, 1, 2, 3, 4, 5, 6, 7, 8],
 	  postions: [], // 不同位置图片的位置，仅仅用于判断卡片重叠
 	  leftTops: [],
 	  currDrag: -1, // 当前滑动的序号
@@ -25698,12 +25697,11 @@
 	      this.setState({ status: 'fail' }); // 失败
 	      return;
 	    }
-	    this.setState({ seconds: --this.state.seconds });
+	    this.refs.counter.innerHTML = _dateUtils2.default.formatSec(--this.state.seconds);
 	    this.timer = window.setTimeout(this.countDown, 1000);
 	  },
 
 	  componentWillMount: function componentWillMount() {
-	    console.log('componentWillMount');
 	    // 随机生成拼图。
 	    do {
 	      this.gameMap = _arrayUtils2.default.randomArray(9);
@@ -25722,7 +25720,6 @@
 	    var d = $('.game_cell[d="' + index0 + '"]');
 	    var x = d.offset().left;
 	    var y = d.offset().top;
-	    // console.log(d.innerHeight)
 	    var center_x = x + d.width() / 2;
 	    var center_y = y + d.height() / 2;
 
@@ -25779,8 +25776,16 @@
 	      }, 100, null, function () {
 	        currDragDom.css('z-index', 1);
 	      });
-	    }
 
+	      // 交换map （this.currDrag 《----》 which）
+	      for (var i = 0; i < this.gameMap.length; i++) {
+	        if (this.gameMap[i] === this.currDrag) {
+	          this.gameMap[i] = which;
+	        } else if (this.gameMap[i] === which) {
+	          this.gameMap[i] = this.currDrag;
+	        }
+	      }
+	    }
 	    // 然后判断是否成功
 	    if (_arrayUtils2.default.arrayDiff(this.gameMap, this.answer) === 0) {
 	      this.setState({ status: 'success' }); // 成功
@@ -25825,7 +25830,7 @@
 	  },
 	  componentDidMount: function componentDidMount() {
 	    // 页面渲染之后，获取不同块的位置信息。
-	    window.onload = this.windowLoaded;
+	    this.windowLoaded();
 	  },
 	  componentWillUnmount: function componentWillUnmount() {
 	    window.clearTimeout(this.timer);
@@ -25850,7 +25855,7 @@
 	    } else if (this.state.status === 'success') {
 	      return this.renderSuccess();
 	    } else if (this.state.status === 'fail') {
-	      return this.renderSuccess();
+	      return this.renderFail();
 	    } else {
 	      return _react2.default.createElement(
 	        'div',
@@ -25862,80 +25867,78 @@
 	  renderGaming: function renderGaming() {
 	    return _react2.default.createElement(
 	      'div',
-	      null,
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'ui inverted statistics' },
-	        _react2.default.createElement(
+	      { className: 'ui three column grid game-container',
+	        ref: 'GameContainer',
+	        style: {
+	          position: 'relative',
+	          height: GlobalConfig.imgHeight,
+	          width: GlobalConfig.imgWith,
+	          backgroundImage: 'url(' + GlobalConfig.background + ')'
+	        } },
+	      this.gameMap.map(function (index, i) {
+	        var x = index % 3 * 33.33 / 100;
+	        var y = parseInt(index / 3) * 33.33 / 100;
+	        return _react2.default.createElement(
 	          'div',
-	          { className: 'statistic' },
+	          { d: index + '', className: 'column game_cell', key: i },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'value' },
-	            _react2.default.createElement('i', { className: 'clock icon' }),
-	            ' ',
+	            { d: index + '', className: 'ui card imgPart', style: {
+	                height: '100%',
+	                background: 'url("image/game/' + this.props.params.img + '")',
+	                backgroundPosition: -x * GlobalConfig.imgWith + 'px ' + -y * GlobalConfig.imgHeight + 'px'
+	              } },
 	            _react2.default.createElement(
-	              'span',
-	              { ref: 'counter' },
-	              _dateUtils2.default.formatSec(this.state.seconds)
+	              'a',
+	              { className: 'image' },
+	              _react2.default.createElement('span', { d: index + '' })
 	            )
 	          )
-	        ),
-	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/', className: 'ui animated fade button', tabIndex: '0' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'visible content' },
-	            '\u91CD\u65B0\u5F00\u59CB\u6E38\u620F'
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'hidden content' },
-	            '\u70B9\u51FB\u91CD\u65B0\u5F00\u59CB '
-	          )
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'ui three column grid game-container',
-	          ref: 'GameContainer',
-	          style: {
-	            position: 'relative',
-	            height: GlobalConfig.imgHeight,
-	            width: GlobalConfig.imgWith,
-	            backgroundImage: 'url(image/game/1.jpg)'
-	          } },
-	        this.gameMap.map(function (index, i) {
-	          var x = i % 3 * 33.33;
-	          var y = parseInt(i / 3) * 33.33;
-	          return _react2.default.createElement(
-	            'div',
-	            { d: index + '', className: 'column game_cell', key: i },
-	            _react2.default.createElement(
-	              'div',
-	              { d: index + '', className: 'ui card imgPart', style: {
-	                  height: '100%',
-	                  background: 'url("image/game/' + this.props.params.img + '")',
-	                  backgroundSize: '100%',
-	                  backgroundPosition: -x + '% ' + -y + '%'
-	                } },
-	              _react2.default.createElement(
-	                'a',
-	                { className: 'image' },
-	                _react2.default.createElement('span', { d: index + '' })
-	              )
-	            )
-	          );
-	        }.bind(this))
-	      )
+	        );
+	      }.bind(this))
 	    );
 	  },
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
 	      { className: 'ui container content index-container' },
-	      this.renderGameBoard()
+	      _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'ui inverted statistics' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'statistic' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'value' },
+	              _react2.default.createElement('i', { className: 'clock icon' }),
+	              _react2.default.createElement(
+	                'span',
+	                { ref: 'counter' },
+	                _dateUtils2.default.formatSec(GlobalConfig.time)
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/', className: 'ui animated fade button', tabIndex: '0' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'visible content' },
+	              '\u91CD\u65B0\u5F00\u59CB\u6E38\u620F'
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'hidden content' },
+	              '\u70B9\u51FB\u91CD\u65B0\u5F00\u59CB '
+	            )
+	          )
+	        ),
+	        this.renderGameBoard()
+	      )
 	    );
 	  }
 	});
