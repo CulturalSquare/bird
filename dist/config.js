@@ -11,7 +11,9 @@ var GlobalConfig = {
   time: 180, // 每次游戏的时间，多少秒 (180秒为3分钟)
   indexWidth: 900,
   imgWith: 512, // 图片的宽高，调整到适配屏幕
-  imgHeight: 384
+  imgHeight: 384,
+  successImg: 'image/success.png',
+  failImg: 'image/fail.png',
 };
 
 // 配置拼图的原始图片，请将图片放到 imgage/game 目录

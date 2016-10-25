@@ -24,7 +24,7 @@ module.exports = {
     }]
   },
   plugins: [
-    // new uglifyJsPlugin({compress: {warnings: false}}),
-    // new definePlugin({'process.env': {NODE_ENV: '"production"'}})
+    new uglifyJsPlugin({compress: {warnings: false}}),
+    new definePlugin({'process.env': {NODE_ENV: '"production"'}})
   ]
 };

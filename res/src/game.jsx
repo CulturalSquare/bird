@@ -123,6 +123,9 @@ const Game = React.createClass({
     }
     // 然后判断是否成功
     if (ArrayUtils.arrayDiff(this.gameMap, this.answer) === 0) {
+      if (this.timer) window.clearTimeout(this.timer);
+      // 去除border，演示动画
+
       this.setState({status: 'success'}); // 成功
     }
   },
@@ -169,27 +172,46 @@ const Game = React.createClass({
     this.windowLoaded();
   },
   componentWillUnmount: function() {
-    window.clearTimeout(this.timer);
+    if (this.timer) window.clearTimeout(this.timer);
   },
   renderSuccess: function() {
-    return (<div>renderSuccess</div>);
+    return (
+      <div className="ui ">
+        <h1 className="ui header">恭喜你，成功了~</h1>
+        <img className="ui centered large image" src={GlobalConfig.successImg} />
+      </div>
+    )
   },
   renderFail: function() {
-    return (<div>renderFail</div>);
+    return (
+      <div className="ui ">
+        <h1 className="ui header">失败了也没关系~</h1>
+        <img className="ui centered large image" src={GlobalConfig.failImg} />
+      </div>
+    )
   },
   renderGameBoard:function() {
+    let board = null;
     if (this.state.status === 'gaming') {
-      return this.renderGaming()
+      board = this.renderGaming()
     }
     else if (this.state.status === 'success') {
-      return this.renderSuccess()
+      board = this.renderSuccess()
     }
     else if (this.state.status === 'fail') {
-      return this.renderFail()
+      board = this.renderFail()
     }
     else {
-      return (<div>error.</div>)
+      board = (
+        <div className="ui ">
+          <h1 className="ui header">你怎么会跑到这里来~</h1>
+          <img className="ui centered large image" src={GlobalConfig.successImg} />
+        </div>
+      )
     }
+    return (
+      <div style={{marginTop: $('body').height() / 2 - GlobalConfig.imgHeight / 2 - 100}}>{board}</div>
+    );
   },
   renderGaming: function() {
     return (
@@ -209,7 +231,7 @@ const Game = React.createClass({
                 className="column game_cell" 
                 key={i} >
               <div d={index + ''} className="ui card imgPart" style={{
-                      height:'100%',
+                      height: GlobalConfig.imgHeight / 3 + 'px',
                       background: 'url("image/game/' + this.props.params.img + '")',
                       backgroundPosition: (-x * GlobalConfig.imgWith) + 'px ' + (-y * GlobalConfig.imgHeight) + 'px'
                     }}>
